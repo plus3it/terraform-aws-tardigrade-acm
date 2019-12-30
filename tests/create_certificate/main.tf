@@ -1,8 +1,7 @@
 locals {
   test_id = length(data.terraform_remote_state.prereq.outputs) > 0 ? data.terraform_remote_state.prereq.outputs.random_string.result : ""
 
-  zone_name   = "cloudarmor.io"
-  domain_name = "tardigrade-${local.test_id}.test.${local.zone_name}"
+  domain_name = "tardigrade-${local.test_id}.test.${var.zone_name}"
 }
 
 data "terraform_remote_state" "prereq" {
@@ -13,7 +12,7 @@ data "terraform_remote_state" "prereq" {
 }
 
 data "aws_route53_zone" "this" {
-  name         = local.zone_name
+  name         = var.zone_name
   private_zone = false
 }
 
@@ -26,6 +25,11 @@ module "create_certificate" {
   subject_alternative_names = [
     "*.${local.domain_name}"
   ]
+}
+
+variable "zone_name" {
+  type    = string
+  default = "cloudarmor.io"
 }
 
 output "create_certificate" {
