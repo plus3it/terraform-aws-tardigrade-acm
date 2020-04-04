@@ -3,6 +3,12 @@
 A Terraform module to create DNS-validated certificates using ACM
 
 <!-- BEGIN TFDOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | ~> 0.12.0 |
+
 ## Providers
 
 | Name | Version |
@@ -12,7 +18,7 @@ A Terraform module to create DNS-validated certificates using ACM
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
+|------|-------------|------|---------|:--------:|
 | certificate\_transparency\_logging\_preference | Value to apply to the certificate transparency logging preference for the ACM certificate | `string` | `"ENABLED"` | no |
 | create\_acm\_certificate | Toggle to enable/disable the ACM certificate creation | `bool` | `true` | no |
 | domain\_name | Domain name to use for the ACM certificate | `string` | `""` | no |
