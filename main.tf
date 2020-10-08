@@ -1,6 +1,4 @@
-
 resource "aws_acm_certificate" "this" {
-  for_each = var.create_acm_certificate ? { (var.domain_name) = var.domain_name } : {}
 
   domain_name               = each.key
   subject_alternative_names = var.subject_alternative_names
@@ -18,7 +16,7 @@ resource "aws_acm_certificate" "this" {
 }
 
 resource "aws_route53_record" "this" {
-  for_each = var.create_acm_certificate ? local.validation_records : toset([])
+  for_each = local.validation_records
 
   allow_overwrite = true
   name            = lookup(local.domain_validation_options, each.value, local.dummy_validation_option).resource_record_name
@@ -32,7 +30,6 @@ resource "aws_route53_record" "this" {
 }
 
 resource "aws_acm_certificate_validation" "this" {
-  for_each = var.create_acm_certificate ? { (var.domain_name) = var.domain_name } : {}
 
   certificate_arn         = aws_acm_certificate.this[each.key].arn
   validation_record_fqdns = [for record in aws_route53_record.this : record.fqdn]
@@ -55,9 +52,9 @@ locals {
   # The domain_name will be used as the key to lookup the values for the cert
   # validtion route53 records.
 
-  domain_validation_options = var.create_acm_certificate ? {
+  domain_validation_options = {
     for option in aws_acm_certificate.this[var.domain_name].domain_validation_options : option.domain_name => option
-  } : {}
+  }
 
   # When the validation_records change, a resource cycle triggers correctly to
   # replace the certificate. However, local.domain_validation_options is evaluated
