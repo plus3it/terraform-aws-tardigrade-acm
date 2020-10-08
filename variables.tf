@@ -4,16 +4,9 @@ variable "certificate_transparency_logging_preference" {
   default     = "ENABLED"
 }
 
-variable "create_acm_certificate" {
-  description = "Toggle to enable/disable the ACM certificate creation"
-  type        = bool
-  default     = true
-}
-
 variable "domain_name" {
   description = "Domain name to use for the ACM certificate"
   type        = string
-  default     = ""
 }
 
 variable "subject_alternative_names" {

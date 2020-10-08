@@ -1,3 +1,7 @@
+provider aws {
+  region = "us-east-1"
+}
+
 locals {
   test_id = length(data.terraform_remote_state.prereq.outputs) > 0 ? data.terraform_remote_state.prereq.outputs.random_string.result : ""
 
