@@ -14,3 +14,6 @@
 # tardigrade-ci
 .tardigrade-ci
 tardigrade-ci/
+
+# terratest
+tests/go.*
