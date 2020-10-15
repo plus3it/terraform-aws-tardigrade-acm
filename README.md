@@ -7,7 +7,7 @@ A Terraform module to create DNS-validated certificates using ACM
 
 | Name | Version |
 |------|---------|
-| terraform | ~> 0.12.0 |
+| terraform | >= 0.13.0 |
 
 ## Providers
 
