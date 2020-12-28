@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 0.13.0"
 }
 
-resource aws_acm_certificate this {
+resource "aws_acm_certificate" "this" {
   domain_name               = var.domain_name
   subject_alternative_names = var.subject_alternative_names
   validation_method         = "DNS"
@@ -18,7 +18,7 @@ resource aws_acm_certificate this {
   }
 }
 
-resource aws_route53_record this {
+resource "aws_route53_record" "this" {
   for_each = { for record in local.validation_records : record => local.domain_validation_options[record] }
 
   allow_overwrite = true
@@ -32,7 +32,7 @@ resource aws_route53_record this {
   ]
 }
 
-resource aws_acm_certificate_validation this {
+resource "aws_acm_certificate_validation" "this" {
   certificate_arn         = aws_acm_certificate.this.arn
   validation_record_fqdns = [for record in aws_route53_record.this : record.fqdn]
 }

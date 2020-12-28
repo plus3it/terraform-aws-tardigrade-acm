@@ -1,8 +1,8 @@
-provider aws {
+provider "aws" {
   region = "us-east-1"
 }
 
-module create_certificate {
+module "create_certificate" {
   source = "../../"
 
   zone_id     = data.aws_route53_zone.this.zone_id
@@ -23,18 +23,18 @@ locals {
   zone_name   = "tardigrade.cloudarmor.io"
 }
 
-data terraform_remote_state prereq {
+data "terraform_remote_state" "prereq" {
   backend = "local"
   config = {
     path = "prereq/terraform.tfstate"
   }
 }
 
-data aws_route53_zone this {
+data "aws_route53_zone" "this" {
   name         = local.zone_name
   private_zone = false
 }
 
-output create_certificate {
+output "create_certificate" {
   value = module.create_certificate
 }
