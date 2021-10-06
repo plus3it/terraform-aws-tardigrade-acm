@@ -32,5 +32,6 @@ data "aws_route53_zone" "this" {
 }
 
 output "create_certificate" {
-  value = module.create_certificate
+  value     = module.create_certificate
+  sensitive = true
 }
