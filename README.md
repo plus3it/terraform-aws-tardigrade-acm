@@ -2,6 +2,16 @@
 
 A Terraform module to create DNS-validated certificates using ACM
 
+## Testing
+
+At the moment, testing is manual and requires access to the Plus3IT account
+303523384066 where the zone tardigrade.cloudarmor.io exists:
+
+```
+# Replace "xxx" with the AWS profile, then execute the integration tests.
+AWS_PROFILE=xxx make terraform/pytest PYTEST_ARGS="-v --nomock"
+```
+
 <!-- BEGIN TFDOCS -->
 ## Requirements
 

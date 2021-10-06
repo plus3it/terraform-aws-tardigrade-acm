@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-1"
-}
-
 module "create_certificate" {
   source = "../../"
 
@@ -36,5 +32,6 @@ data "aws_route53_zone" "this" {
 }
 
 output "create_certificate" {
-  value = module.create_certificate
+  value     = module.create_certificate
+  sensitive = true
 }
