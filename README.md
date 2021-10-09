@@ -15,11 +15,9 @@ AWS_PROFILE=xxx make terraform/pytest PYTEST_ARGS="-v --nomock"
 For automated testing:
 
 ```
+make mockstack/up
 make terraform/pytest PYTEST_ARGS="-v"
-
-# or simply
-
-make terraform/pytest
+make mockstack/clean
 ```
 
 <!-- BEGIN TFDOCS -->
