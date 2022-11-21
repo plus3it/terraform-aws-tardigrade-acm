@@ -21,10 +21,13 @@ jobs:
       - name: Test release condition
         id: release
         run: |
+          set -eu -o pipefail
           RELEASE=false
-          if make release/test 2> /dev/null; then RELEASE=true; fi
+          PRIOR_VERSION=$(git describe --abbrev=0 --tags)
+          RELEASE_VERSION=$(grep current_version .bumpversion.cfg | sed 's/^.*= //' )
+          if [[ "$(PRIOR_VERSION)" != "$(RELEASE_VERSION)" ]]; then RELEASE=true; fi
           echo "::set-output name=condition::${RELEASE}"
-          echo "::set-output name=version::$(make release/version)"
+          echo "::set-output name=version::${RELEASE_VERSION}"
 
       - name: Run lint and static analyis checks
         if: steps.release.outputs.condition == 'true'
