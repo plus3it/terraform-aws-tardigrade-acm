@@ -3,6 +3,10 @@ on:
   pull_request:
   workflow_call:
 
+concurrency:
+  group: ${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   tardigradelint:
     runs-on: ubuntu-latest
