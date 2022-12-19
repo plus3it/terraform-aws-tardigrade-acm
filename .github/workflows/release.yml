@@ -12,7 +12,11 @@ on:
       - .bumpversion.cfg
 
 jobs:
+  lint:
+    uses: ./.github/workflows/lint.yml
+
   release:
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -29,12 +33,10 @@ jobs:
           PRIOR_VERSION=$(git describe --abbrev=0 --tags)
           RELEASE_VERSION=$(grep current_version .bumpversion.cfg | sed 's/^.*= //' )
           if [[ "$PRIOR_VERSION" != "$RELEASE_VERSION" ]]; then RELEASE=true; fi
+          echo "condition=${RELEASE}"
+          echo "version=${RELEASE_VERSION}"
           echo "condition=${RELEASE}" >> "$GITHUB_OUTPUT"
           echo "version=${RELEASE_VERSION}" >> "$GITHUB_OUTPUT"
-
-      - name: Run lint and static analyis checks
-        if: steps.release.outputs.condition == 'true'
-        uses: ./.github/workflows/lint.yml
 
       - name: Create release
         if: steps.release.outputs.condition == 'true'
