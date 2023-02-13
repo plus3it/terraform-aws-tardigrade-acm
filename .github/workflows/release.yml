@@ -12,38 +12,9 @@ on:
       - .bumpversion.cfg
 
 jobs:
-  lint:
-    uses: ./.github/workflows/lint.yml
-
   release:
-    needs: lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
-        with:
-          fetch-depth: 0
-      - run: git fetch --tags --force origin # WA: https://github.com/actions/checkout/issues/882
-
-      - name: Test release condition
-        id: release
-        run: |
-          set -eu -o pipefail
-          RELEASE=false
-          PRIOR_VERSION=$(git describe --abbrev=0 --tags)
-          RELEASE_VERSION=$(grep current_version .bumpversion.cfg | sed 's/^.*= //' )
-          if [[ "$PRIOR_VERSION" != "$RELEASE_VERSION" ]]; then RELEASE=true; fi
-          echo "condition=${RELEASE}"
-          echo "version=${RELEASE_VERSION}"
-          echo "condition=${RELEASE}" >> "$GITHUB_OUTPUT"
-          echo "version=${RELEASE_VERSION}" >> "$GITHUB_OUTPUT"
-
-      - name: Create release
-        if: steps.release.outputs.condition == 'true'
-        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
-        with:
-          name: ${{ steps.release.outputs.version }}
-          tag_name:  ${{ steps.release.outputs.version }}
-          generate_release_notes: true
-          target_commitish: ${{ env.GITHUB_REF }}
-          token: ${{ secrets.GH_RELEASES_TOKEN }}
+    uses: plus3it/actions-workflows/.github/workflows/release.yml@15ec2909fc026e469664a5978332be1741fbabf3
+    with:
+      mockstacktest-enable: false
+    secrets:
+      release-token: ${{ secrets.GH_RELEASES_TOKEN }}
