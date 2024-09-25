@@ -4,6 +4,13 @@ variable "certificate_transparency_logging_preference" {
   default     = "ENABLED"
 }
 
+variable "create_certificate_validation" {
+  description = "Boolean controlling whether to create the ACM certificate validation resource"
+  type        = bool
+  nullable    = false
+  default     = true
+}
+
 variable "domain_name" {
   description = "Domain name to use for the ACM certificate"
   type        = string

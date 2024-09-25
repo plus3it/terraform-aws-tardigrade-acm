@@ -19,7 +19,10 @@ resource "aws_acm_certificate" "this" {
 }
 
 resource "aws_route53_record" "this" {
-  for_each = { for record in local.validation_records : record => local.domain_validation_options[record] }
+  for_each = {
+    for record in local.validation_records : record => local.domain_validation_options[record]
+    if endswith(record, data.aws_route53_zone.this.name)
+  }
 
   allow_overwrite = true
   name            = each.value.resource_record_name
@@ -33,6 +36,8 @@ resource "aws_route53_record" "this" {
 }
 
 resource "aws_acm_certificate_validation" "this" {
+  count = var.create_certificate_validation ? 1 : 0
+
   certificate_arn         = aws_acm_certificate.this.arn
   validation_record_fqdns = [for record in aws_route53_record.this : record.fqdn]
 }
@@ -52,4 +57,8 @@ locals {
   domain_validation_options = {
     for option in aws_acm_certificate.this.domain_validation_options : option.domain_name => option
   }
+}
+
+data "aws_route53_zone" "this" {
+  zone_id = var.zone_id
 }

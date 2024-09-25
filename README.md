@@ -29,6 +29,7 @@ AWS_PROFILE=xxx make terraform/pytest PYTEST_ARGS="-v --nomock"
 
 | Name | Type |
 |------|------|
+| [aws_route53_zone.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
 
 ## Inputs
 
@@ -36,6 +37,7 @@ AWS_PROFILE=xxx make terraform/pytest PYTEST_ARGS="-v --nomock"
 |------|-------------|------|---------|:--------:|
 | <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | Domain name to use for the ACM certificate | `string` | n/a | yes |
 | <a name="input_certificate_transparency_logging_preference"></a> [certificate\_transparency\_logging\_preference](#input\_certificate\_transparency\_logging\_preference) | Value to apply to the certificate transparency logging preference for the ACM certificate | `string` | `"ENABLED"` | no |
+| <a name="input_create_certificate_validation"></a> [create\_certificate\_validation](#input\_create\_certificate\_validation) | Boolean controlling whether to create the ACM certificate validation resource | `bool` | `true` | no |
 | <a name="input_subject_alternative_names"></a> [subject\_alternative\_names](#input\_subject\_alternative\_names) | Subject alternative names to associate with the ACM certificate | `list(string)` | `[]` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Map of tags to apply to all resources that support tags | `map(string)` | `{}` | no |
 | <a name="input_ttl"></a> [ttl](#input\_ttl) | Time-to-live for the DNS validation records | `number` | `300` | no |
