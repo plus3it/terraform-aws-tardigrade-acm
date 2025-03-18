@@ -37,5 +37,10 @@ variable "ttl" {
 variable "zone_id" {
   description = "Route53 zone ID in which to create the DNS validation records"
   type        = string
-  default     = ""
+}
+
+variable "zone_name" {
+  description = "Route53 zone name of zone_id, used to determine whether to create a validation record in the provided zone"
+  type        = string
+  default     = null
 }

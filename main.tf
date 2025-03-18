@@ -21,7 +21,7 @@ resource "aws_acm_certificate" "this" {
 resource "aws_route53_record" "this" {
   for_each = {
     for record in local.validation_records : record => local.domain_validation_options[record]
-    if endswith(record, data.aws_route53_zone.this.name)
+    if var.zone_name != null ? endswith(record, var.zone_name) : endswith(record, data.aws_route53_zone.this.name)
   }
 
   allow_overwrite = true

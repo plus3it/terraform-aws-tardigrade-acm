@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### [1.2.0](https://github.com/plus3it/terraform-aws-tardigrade-ec2-account/releases/tag/1.2.0)
+
+**Released**: 2025.03.17
+
+**Summary**:
+
+*   Accepts `zone_name` input to avoid data lookup that breaks zone creation and
+    acm validation in the same, single terraform configuration
+
 ### [1.1.0](https://github.com/plus3it/terraform-aws-tardigrade-ec2-account/releases/tag/1.1.0)
 
 **Released**: 2024.09.25
